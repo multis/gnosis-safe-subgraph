@@ -1,0 +1,58 @@
+specVersion: 0.0.2
+description: Gnosis Safe Subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: GnosisSafeProxyFactory
+    network: {{network}}
+    source:
+      address: '{{factory.addr}}'
+      abi: GnosisSafeProxyFactory
+      startBlock: {{factory.birthBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/factory.ts
+      entities:
+        - Wallet
+      abis:
+        - name: GnosisSafeProxyFactory
+          file: ./abis/GnosisSafeProxyFactory.json
+        - name: GnosisSafe
+          file: ./abis/GnosisSafe.json
+      eventHandlers:
+        - event: ProxyCreation(address)
+          handler: handleProxyCreation
+
+templates:
+  - kind: ethereum/contract
+    name: GnosisSafe
+    network: {{network}}
+    source:
+      abi: GnosisSafe
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/wallet.ts
+      entities:
+        - Wallet
+      abis:
+        - name: GnosisSafe
+          file: ./abis/GnosisSafe.json
+      eventHandlers:
+        - event: AddedOwner(address)
+          handler: handleAddedOwner
+        - event: RemovedOwner(address)
+          handler: handleRemovedOwner
+        - event: ChangedThreshold(uint256)
+          handler: handleChangedThreshold
+        - event: ExecutionSuccess(bytes32,uint256)
+          handler: handleExecutionSuccess
+        - event: ExecutionFailure(bytes32,uint256)
+          handler: handleExecutionFailure
+      callHandlers:
+        - function: execTransaction(address,uint256,bytes,uint8,uint256,uint256,uint256,address,address,bytes)
+          handler: handleExecTransaction

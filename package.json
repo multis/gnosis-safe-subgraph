@@ -1,0 +1,24 @@
+{
+  "name": "multisig",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:rinkeby": "mustache config/rinkeby.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:ropsten": "mustache config/ropsten.json subgraph.template.yaml > subgraph.yaml",
+    "deploy:mainnet": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ gjeanmart/gnosis-safe-mainnet",
+    "deploy:rinkeby": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ gjeanmart/gnosis-safe-rinkeby",
+    "deploy:ropsten": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ gjeanmart/gnosis-safe-ropsten",
+    "create-local": "graph create --node http://localhost:8020/ gjeanmart/gnosis-safe",
+    "remove-local": "graph remove --node http://localhost:8020/ gjeanmart/gnosis-safe",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 gjeanmart/gnosis-safe"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.18.0",
+    "@graphprotocol/graph-ts": "0.18.1"
+  },
+  "devDependencies": {
+    "mustache": "^3.1.0"
+  }
+}
