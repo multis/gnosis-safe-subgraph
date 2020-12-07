@@ -1,4 +1,4 @@
-import { BigInt, BigDecimal, ByteArray } from '@graphprotocol/graph-ts'
+import { BigInt, ByteArray } from '@graphprotocol/graph-ts'
 
 export function zeroBigInt(): BigInt {
   return BigInt.fromI32(0)

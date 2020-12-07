@@ -46,16 +46,6 @@ $ ./script/build.sh [--reset] [--code-gen] [--network mainnet|rinkeby|ropsten]
 - `--code-gen -c` (re)generate code from schema [optional, default: false]
 - `--network -n` select a target network (mainnet, ropsten or rinkeby) [optional, default: mainnet]
 
-2. Start a node and deploy locally
-
-```
-$ docker-compose -f ./node/docker-compose.yml up
-$ graph create --node http://localhost:8020/ gjeanmart/gnosis-safe-<network>
-$ ./script/deploy.sh [--network mainnet|rinkeby|ropsten] --local
-```
-
-**Note: can't really work without an archive node.**
-
 
 ## Deployment
 

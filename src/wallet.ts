@@ -115,7 +115,7 @@ export function handleExecTransaction(call: ExecTransactionCall): void {
         if(call.inputs.data.length < 2700) { // max size of a column. In some very rare cases, the method data bytecode is very long 
             transaction.data = call.inputs.data
         } else {
-            log.warning("wallet: {} transaction {} - cannot store transaction.data (too long), size: {}", 
+            log.warning("wallet: {} transaction {} - cannot store transaction.data (too long), length: {}", 
                         [walletAddr.toHexString(), call.transaction.hash.toHexString(), ByteArray.fromI32(call.inputs.data.length).toHexString()])
         }        
         transaction.value = call.inputs.value
