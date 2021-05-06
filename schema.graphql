@@ -36,6 +36,9 @@ type Transaction @entity {
     "Timestamp when the transaction was executed"
     stamp               : BigInt
 
+    "Block on Ethereum"
+    block               : BigInt
+
     "Transaction hash on Ethereum"
     hash                : Bytes
 

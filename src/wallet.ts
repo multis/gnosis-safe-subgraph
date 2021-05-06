@@ -57,6 +57,7 @@ export function handleExecutionSuccess(event: ExecutionSuccess): void {
     if(wallet != null) {
         let transaction = getTransaction(walletAddr, event.params.txHash)
         transaction.status = "EXECUTED"
+        transaction.block = event.block.number
         transaction.hash = event.transaction.hash
         transaction.stamp = event.block.timestamp
         transaction.save()
@@ -77,6 +78,7 @@ export function handleExecutionFailure(event: ExecutionFailure): void {
     if(wallet != null) {
         let transaction = getTransaction(walletAddr, event.params.txHash)
         transaction.status = "FAILED"
+        transaction.block = event.block.number
         transaction.hash = event.transaction.hash
         transaction.stamp = event.block.timestamp
         transaction.save()
