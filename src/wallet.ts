@@ -60,6 +60,8 @@ export function handleExecutionSuccess(event: ExecutionSuccess): void {
         transaction.block = event.block.number
         transaction.hash = event.transaction.hash
         transaction.stamp = event.block.timestamp
+        transaction.txhash = event.params.txHash
+        transaction.payment = event.params.payment
         transaction.save()
 
         wallet = addTransactionToWallet(<Wallet> wallet, transaction)
@@ -81,6 +83,8 @@ export function handleExecutionFailure(event: ExecutionFailure): void {
         transaction.block = event.block.number
         transaction.hash = event.transaction.hash
         transaction.stamp = event.block.timestamp
+        transaction.txhash = event.params.txHash
+        transaction.payment = event.params.payment
         transaction.save()
 
         wallet = addTransactionToWallet(<Wallet> wallet, transaction)
@@ -127,10 +131,8 @@ export function handleExecTransaction(call: ExecTransactionCall): void {
         transaction.operation = (call.inputs.operation == 0) ? "CALL" : "DELEGATE_CALL"
         transaction.estimatedSafeTxGas = call.inputs.safeTxGas
         transaction.estimatedBaseGas = call.inputs.baseGas
-        transaction.estimatedGasPrice = call.inputs.gasPrice
         transaction.gasToken = call.inputs.gasToken
-        transaction.gasUsed = call.transaction.gasUsed
-        transaction.gasPrice = call.transaction.gasPrice
+        transaction.gasPrice =  call.inputs.gasPrice
         transaction.refundReceiver = call.inputs.refundReceiver
         transaction.save()
 

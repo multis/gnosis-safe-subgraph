@@ -43,7 +43,10 @@ type Transaction @entity {
     hash                : Bytes
 
     "Status of the transaction"
-    status              : TransactionStatus   
+    status              : TransactionStatus  
+
+    "Transaction hash on the Safe"
+    txhash                : Bytes
 
     "Ether Amount (in WEI) included in the transaction - transfered from the wallet when the transaction is executed"
     value               : BigInt
@@ -66,11 +69,11 @@ type Transaction @entity {
     "Estimated Gas that should be used for the Safe transaction."
     estimatedSafeTxGas  : BigInt
 
-    "Estimated Gas costs for that are indipendent of the transaction execution(e.g. base transaction fee, signature check, payment of the refund)"
+    "Estimated Gas costs for that are indipendent of the transaction execution (e.g. base transaction fee, signature check, payment of the refund)"
     estimatedBaseGas    : BigInt
 
-    "Estimated GasPrice"
-    estimatedGasPrice   : BigInt
+    "gasPrice (in gasToken)"
+    gasPrice   : BigInt
 
     "gasToken"
     gasToken            : Bytes
@@ -78,11 +81,8 @@ type Transaction @entity {
     "refundReceiver"
     refundReceiver      : Bytes
 
-    "gasUsed"
-    gasUsed             : BigInt
-
-    "gasPrice"
-    gasPrice            : BigInt
+    "Amount paid as fee to refundReceiver "
+    payment             : BigInt
 
     "Wallet parent"
     wallet              : Wallet! @derivedFrom(field: "transactions")
