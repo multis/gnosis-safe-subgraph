@@ -1,4 +1,5 @@
 {
   "network": "ropsten",
-  "factory": {"addr": "0x76E2cFc1F5Fa8F6a5b3fC4c8F4788F0116861F9B", "birthBlock": 9089631}
+  "factory": {"v1_1_1": {"addr": "0x76E2cFc1F5Fa8F6a5b3fC4c8F4788F0116861F9B", "birthBlock": 9089631},
+              "v1_3_0": {"addr": "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2", "birthBlock": 10127570}}
 }

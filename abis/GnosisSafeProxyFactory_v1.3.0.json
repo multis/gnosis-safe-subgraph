@@ -4,8 +4,14 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "contract Proxy",
+        "internalType": "contract GnosisSafeProxy",
         "name": "proxy",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "singleton",
         "type": "address"
       }
     ],
@@ -13,11 +19,10 @@
     "type": "event"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "address",
-        "name": "_mastercopy",
+        "name": "_singleton",
         "type": "address"
       },
       {
@@ -34,21 +39,19 @@
     "name": "calculateCreateProxyWithNonceAddress",
     "outputs": [
       {
-        "internalType": "contract Proxy",
+        "internalType": "contract GnosisSafeProxy",
         "name": "proxy",
         "type": "address"
       }
     ],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "address",
-        "name": "masterCopy",
+        "name": "singleton",
         "type": "address"
       },
       {
@@ -60,21 +63,19 @@
     "name": "createProxy",
     "outputs": [
       {
-        "internalType": "contract Proxy",
+        "internalType": "contract GnosisSafeProxy",
         "name": "proxy",
         "type": "address"
       }
     ],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "address",
-        "name": "_mastercopy",
+        "name": "_singleton",
         "type": "address"
       },
       {
@@ -96,21 +97,19 @@
     "name": "createProxyWithCallback",
     "outputs": [
       {
-        "internalType": "contract Proxy",
+        "internalType": "contract GnosisSafeProxy",
         "name": "proxy",
         "type": "address"
       }
     ],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
     "inputs": [
       {
         "internalType": "address",
-        "name": "_mastercopy",
+        "name": "_singleton",
         "type": "address"
       },
       {
@@ -127,17 +126,15 @@
     "name": "createProxyWithNonce",
     "outputs": [
       {
-        "internalType": "contract Proxy",
+        "internalType": "contract GnosisSafeProxy",
         "name": "proxy",
         "type": "address"
       }
     ],
-    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": true,
     "inputs": [],
     "name": "proxyCreationCode",
     "outputs": [
@@ -147,12 +144,10 @@
         "type": "bytes"
       }
     ],
-    "payable": false,
     "stateMutability": "pure",
     "type": "function"
   },
   {
-    "constant": true,
     "inputs": [],
     "name": "proxyRuntimeCode",
     "outputs": [
@@ -162,7 +157,6 @@
         "type": "bytes"
       }
     ],
-    "payable": false,
     "stateMutability": "pure",
     "type": "function"
   }

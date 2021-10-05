@@ -1,15 +1,16 @@
-import { ProxyCreation } from '../generated/GnosisSafeProxyFactory/GnosisSafeProxyFactory'
-import { GnosisSafe  } from '../generated/templates/GnosisSafe/GnosisSafe'
+import { ProxyCreation as ProxyCreation_v1_3_0 } from '../generated/GnosisSafeProxyFactory_v1_3_0/GnosisSafeProxyFactory'
+import { ProxyCreation as  ProxyCreation_v1_1_1} from '../generated/GnosisSafeProxyFactory_v1_1_1/GnosisSafeProxyFactory'
+import { GnosisSafe } from '../generated/templates/GnosisSafe/GnosisSafe'
 import { Wallet } from '../generated/schema'
 import { GnosisSafe as GnosisSafeContract } from '../generated/templates'
-import { log, Bytes, dataSource, Address } from '@graphprotocol/graph-ts'
+import { log, Bytes, dataSource, Address, ethereum } from '@graphprotocol/graph-ts'
 
 
 
 
 function handleProxyCreation(proxyAddress: Address, masterCopyAddress: Address|null, event: ethereum.Event): void {
 
-  let walletAddr = event.params.proxy
+  let walletAddr = proxyAddress
   let safeInstance = GnosisSafe.bind(walletAddr)
 
   let callGetOwnerResult = safeInstance.try_getOwners()
