@@ -4,7 +4,10 @@ import { Wallet } from '../generated/schema'
 import { GnosisSafe as GnosisSafeContract } from '../generated/templates'
 import { log, Bytes, dataSource, Address } from '@graphprotocol/graph-ts'
 
-export function handleProxyCreation(event: ProxyCreation): void {
+
+
+
+function handleProxyCreation(proxyAddress: Address, masterCopyAddress: Address|null, event: ethereum.Event): void {
 
   let walletAddr = event.params.proxy
   let safeInstance = GnosisSafe.bind(walletAddr)
@@ -17,6 +20,7 @@ export function handleProxyCreation(event: ProxyCreation): void {
     wallet.stamp               = event.block.timestamp
     wallet.hash                = event.transaction.hash
     wallet.factory             = event.address as Address
+    wallet.mastercopy          = masterCopyAddress
     wallet.owners              = callGetOwnerResult.value as Bytes[]
     wallet.threshold           = safeInstance.getThreshold()
     wallet.transactions        = []
@@ -32,6 +36,13 @@ export function handleProxyCreation(event: ProxyCreation): void {
     log.warning("Wallet {} is incorrect (tx: {})", 
                 [walletAddr.toHexString(), event.transaction.hash.toHexString()])
   }
+}
 
+export function handleProxyCreation_1_3_0(event: ProxyCreation_v1_3_0): void {
+  handleProxyCreation(event.params.proxy, event.params.singleton, event)
+}
+
+export function handleProxyCreation_1_1_1(event: ProxyCreation_v1_1_1): void {
+  handleProxyCreation(event.params.proxy, null, event)
 }
 

@@ -18,6 +18,9 @@ type Wallet @entity {
     "Factory Address which deployed the wallet"
     factory             : Bytes!
 
+    "Mastercopy address used by the proxy"
+    mastercopy          : Bytes
+
     "List of owner Addresses of the wallet"
     owners              : [Bytes!]!
 
