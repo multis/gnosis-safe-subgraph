@@ -137,6 +137,7 @@ export function handleExecTransaction(call: ExecTransactionCall): void {
         transaction.save()
 
         wallet = addTransactionToWallet(<Wallet> wallet, transaction)
+        wallet.currentNonce = currentNonce
         wallet.save()
 
     } else {

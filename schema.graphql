@@ -21,6 +21,9 @@ type Wallet @entity {
     "Mastercopy address used by the proxy"
     mastercopy          : Bytes
 
+    "Nonce used to order and uniquely identified each transaction"
+    currentNonce        : BigInt!
+
     "List of owner Addresses of the wallet"
     owners              : [Bytes!]!
 
