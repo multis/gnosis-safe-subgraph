@@ -6,9 +6,6 @@ import { GnosisSafe as GnosisSafeContract } from '../generated/templates'
 import { log, Bytes, dataSource, Address, ethereum } from '@graphprotocol/graph-ts'
 import { zeroBigInt } from './utils'
 
-
-
-
 function handleProxyCreation(proxyAddress: Address, masterCopyAddress: Address|null, event: ethereum.Event): void {
 
   let walletAddr = proxyAddress
@@ -23,6 +20,7 @@ function handleProxyCreation(proxyAddress: Address, masterCopyAddress: Address|n
     wallet.hash                = event.transaction.hash
     wallet.factory             = event.address as Address
     wallet.mastercopy          = masterCopyAddress
+    wallet.version             = safeInstance.VERSION()
     wallet.owners              = callGetOwnerResult.value as Bytes[]
     wallet.threshold           = safeInstance.getThreshold()
     wallet.currentNonce        = zeroBigInt()

@@ -21,7 +21,7 @@ dataSources:
         - name: GnosisSafeProxyFactory
           file: ./abis/GnosisSafeProxyFactory_v1.1.1.json
         - name: GnosisSafe
-          file: ./abis/GnosisSafe.json
+          file: ./abis/GnosisSafeL2.json
       eventHandlers:
         - event: ProxyCreation(address)
           handler: handleProxyCreation_1_1_1
@@ -44,7 +44,7 @@ dataSources:
         - name: GnosisSafeProxyFactory
           file: ./abis/GnosisSafeProxyFactory_v1.3.0.json
         - name: GnosisSafe
-          file: ./abis/GnosisSafe.json
+          file: ./abis/GnosisSafeL2.json
       eventHandlers:
         - event: ProxyCreation(address,address)
           handler: handleProxyCreation_1_3_0
@@ -54,7 +54,7 @@ templates:
     name: GnosisSafe
     network: {{network}}
     source:
-      abi: GnosisSafe
+      abi: GnosisSafeL2
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -78,6 +78,5 @@ templates:
           handler: handleExecutionSuccess
         - event: ExecutionFailure(bytes32,uint256)
           handler: handleExecutionFailure
-      callHandlers:
-        - function: execTransaction(address,uint256,bytes,uint8,uint256,uint256,uint256,address,address,bytes)
-          handler: handleExecTransaction
+        - event: SafeMultiSigTransaction(address,uint256,bytes,uint8,uint256,uint256,uint256,address,address,bytes,bytes)
+          handler: handleSafeMultiSigTransaction

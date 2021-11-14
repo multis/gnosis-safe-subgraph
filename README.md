@@ -49,20 +49,13 @@ $ ./script/build.sh [--reset] [--code-gen] [--network mainnet|rinkeby|ropsten]
 
 ## Deployment
 
-1. Authenticate to a graph node
-
 ```
-$ graph auth https://api.thegraph.com/deploy/ <token>
-```
-
-2. Deploy
-
-```
-$ ./script/deploy.sh [--network mainnet|rinkeby|ropsten] [--local]
+$ ./script/deploy.sh [--network mainnet|rinkeby|ropsten] [--local] [--access-token xxxxxxxxxxxx]
 ```
 
 - `--network -n` select a target network (mainnet, ropsten or rinkeby) [optional, default: mainnet]
 - `--local -l`  deploy on a local node instead of a TheGraph node (https://api.thegraph.com/deploy/) [optional, default: false]
+- `--access-token -t` access token to deploy the subgraph [optional, default: env variable $THEGRAPH_ACCESS_TOKEN]
 
 
 ## Model
@@ -78,6 +71,7 @@ $ ./script/deploy.sh [--network mainnet|rinkeby|ropsten] [--local]
 {
   wallet(id: "0x12312312.....") {
     id
+    version
     creator
     network
     stamp
@@ -85,6 +79,7 @@ $ ./script/deploy.sh [--network mainnet|rinkeby|ropsten] [--local]
     factory
     owners
     threshold
+    currentNonce
     transactions {
       id
       stamp

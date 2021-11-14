@@ -1,8 +1,9 @@
 import { GnosisSafe, AddedOwner, RemovedOwner, ChangedThreshold,
     ExecutionSuccess, ExecutionFailure, ExecTransactionCall } from '../generated/templates/GnosisSafe/GnosisSafe'
+import { SafeMultiSigTransaction} from '../generated/templates/GnosisSafe/GnosisSafeL2'
 import { Wallet, Transaction } from '../generated/schema'
 import { oneBigInt, concat, zeroBigInt } from './utils'
-import { log, Address, Bytes, crypto, ByteArray } from '@graphprotocol/graph-ts'
+import { log, Address, Bytes, crypto, ByteArray, BigInt } from '@graphprotocol/graph-ts'
 
 export function handleAddedOwner(event: AddedOwner): void {
     let walletAddr = event.address
@@ -72,7 +73,6 @@ export function handleExecutionSuccess(event: ExecutionSuccess): void {
     }
 }
 
-
 export function handleExecutionFailure(event: ExecutionFailure): void {
     let walletAddr = event.address
     let wallet = Wallet.load(walletAddr.toHex())
@@ -96,57 +96,35 @@ export function handleExecutionFailure(event: ExecutionFailure): void {
 }
 
 export function handleExecTransaction(call: ExecTransactionCall): void {
-    let walletAddr = call.to
-    let wallet = Wallet.load(walletAddr.toHex())
-
-    let walletInstance = GnosisSafe.bind(walletAddr)
-
-    if(wallet != null) {
-        let currentNonce = walletInstance.nonce()
-        let nonce = currentNonce.equals(zeroBigInt()) ? currentNonce : currentNonce.minus(oneBigInt())
-        let txHash = walletInstance.getTransactionHash(
-            call.inputs.to,
-            call.inputs.value,
-            call.inputs.data,
-            call.inputs.operation,
-            call.inputs.safeTxGas,
-            call.inputs.baseGas,
-            call.inputs.gasPrice,
-            call.inputs.gasToken,
-            call.inputs.refundReceiver,
-            nonce)
-
-        let transaction = getTransaction(walletAddr, txHash)
-
-        if(call.inputs.data.length < 2700) { // max size of a column. In some very rare cases, the method data bytecode is very long 
-            transaction.data = call.inputs.data
-        } else {
-            log.warning("wallet: {} transaction {} - cannot store transaction.data (too long), length: {}", 
-                        [walletAddr.toHexString(), call.transaction.hash.toHexString(), ByteArray.fromI32(call.inputs.data.length).toHexString()])
-        }        
-        transaction.value = call.inputs.value
-        transaction.destination = call.inputs.to
-        transaction.signatures = call.inputs.signatures
-        transaction.nonce = nonce
-        transaction.operation = (call.inputs.operation == 0) ? "CALL" : "DELEGATE_CALL"
-        transaction.estimatedSafeTxGas = call.inputs.safeTxGas
-        transaction.estimatedBaseGas = call.inputs.baseGas
-        transaction.gasToken = call.inputs.gasToken
-        transaction.gasPrice =  call.inputs.gasPrice
-        transaction.refundReceiver = call.inputs.refundReceiver
-        transaction.save()
-
-        wallet = addTransactionToWallet(<Wallet> wallet, transaction)
-        wallet.currentNonce = currentNonce
-        wallet.save()
-
-    } else {
-        log.warning("handleExecTransaction::Wallet {} not found", [walletAddr.toHexString()])
-    }
+    handleTransaction(
+        call.transaction.hash,
+        call.inputs.to,
+        call.inputs.value,
+        call.inputs.data,
+        call.inputs.operation,
+        call.inputs.safeTxGas,
+        call.inputs.baseGas,
+        call.inputs.gasPrice,
+        call.inputs.gasToken,
+        call.inputs.refundReceiver,
+        call.inputs.signatures)
 }
 
-
-
+export function handleSafeMultiSigTransaction(event: SafeMultiSigTransaction): void {
+    handleTransaction(
+        event.transaction.hash,
+        event.params.to,
+        event.params.value,
+        event.params.data,
+        event.params.operation,
+        event.params.safeTxGas,
+        event.params.baseGas,
+        event.params.gasPrice,
+        event.params.gasToken,
+        event.params.refundReceiver,
+        event.params.signatures
+    )
+}
 
 /*
  * UTILS
@@ -172,4 +150,57 @@ function addTransactionToWallet(wallet: Wallet, transaction: Transaction): Walle
     }
 
     return wallet
+}
+
+export function handleTransaction(hash: Bytes, to: Address, value: BigInt, data: Bytes, operation: i32,
+    safeTxGas: BigInt, baseGas: BigInt, gasPrice: BigInt,  gasToken: Address, refundReceiver: Address, 
+    signatures: Bytes): void {
+
+    let walletAddr = to
+    let wallet = Wallet.load(walletAddr.toHex())
+
+    let walletInstance = GnosisSafe.bind(walletAddr)
+
+    if(wallet != null) {
+        let currentNonce = walletInstance.nonce()
+        let nonce = currentNonce.equals(zeroBigInt()) ? currentNonce : currentNonce.minus(oneBigInt())
+        let txHash = walletInstance.getTransactionHash(
+            to, 
+            value, 
+            data, 
+            operation,
+            safeTxGas, 
+            baseGas, 
+            gasPrice, 
+            gasToken, 
+            refundReceiver, 
+            nonce)
+
+        let transaction = getTransaction(walletAddr, txHash)
+
+        if(data.length < 2700) { // max size of a column. In some very rare cases, the method data bytecode is very long 
+            transaction.data = data
+        } else {
+            log.warning("wallet: {} transaction {} - cannot store transaction.data (too long), length: {}", 
+                        [walletAddr.toHexString(), hash.toHexString(), ByteArray.fromI32(data.length).toHexString()])
+        }        
+        transaction.value = value
+        transaction.destination = to
+        transaction.signatures = signatures
+        transaction.nonce = nonce
+        transaction.operation = (operation == 0) ? "CALL" : "DELEGATE_CALL"
+        transaction.estimatedSafeTxGas = safeTxGas
+        transaction.estimatedBaseGas = baseGas
+        transaction.gasToken = gasToken
+        transaction.gasPrice =  gasPrice
+        transaction.refundReceiver = refundReceiver
+        transaction.save()
+
+        wallet = addTransactionToWallet(<Wallet> wallet, transaction)
+        wallet.currentNonce = currentNonce
+        wallet.save()
+
+    } else {
+        log.warning("handleTransaction::Wallet {} not found", [walletAddr.toHexString()])
+    }
 }
