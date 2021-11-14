@@ -43,21 +43,21 @@ $ npm install
 1. Build
 
 ```
-$ ./script/build.sh [--reset] [--code-gen] [--network mainnet|rinkeby|ropsten]
+$ ./script/build.sh [--reset] [--code-gen] [--network mainnet|ropsten|kovan|mumbai|polygon]
 ```
 
 - `--reset -r` deletes the build and generated code folders [optional, default: false]
 - `--code-gen -c` (re)generate code from schema [optional, default: false]
-- `--network -n` select a target network (mainnet, ropsten or rinkeby) [optional, default: mainnet]
+- `--network -n` select a target network (mainnet, ropsten, kovan, mumbai, polygon) [optional, default: mainnet]
 
 
 ## Deployment
 
 ```
-$ ./script/deploy.sh [--network mainnet|rinkeby|ropsten] [--local] [--access-token xxxxxxxxxxxx]
+$ ./script/deploy.sh [--network mainnet|ropsten|kovan|mumbai|polygon] [--local] [--access-token xxxxxxxxxxxx]
 ```
 
-- `--network -n` select a target network (mainnet, ropsten or rinkeby) [optional, default: mainnet]
+- `--network -n` select a target network (mainnet, ropsten, kovan, mumbai, polygon) [optional, default: mainnet]
 - `--local -l`  deploy on a local node instead of a TheGraph node (https://api.thegraph.com/deploy/) [optional, default: false]
 - `--access-token -t` access token to deploy the subgraph [optional, default: env variable $THEGRAPH_ACCESS_TOKEN]
 
