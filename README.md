@@ -7,6 +7,10 @@ This Subgraph dynamically tracks activity on any Gnosis Safe multisignature wall
 
 - Ropsten https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-ropsten
 - Mainnet https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-mainnet
+- Kovan https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-kovan
+- Mumbain (Polygon testnet) https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-mumbai
+- Polygon https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-polygon
+
 
 ## Prerequiste
 
@@ -77,6 +81,8 @@ $ ./script/deploy.sh [--network mainnet|rinkeby|ropsten] [--local] [--access-tok
     stamp
     hash
     factory
+    mastercopy
+    version
     owners
     threshold
     currentNonce
