@@ -97,6 +97,7 @@ export function handleExecutionFailure(event: ExecutionFailure): void {
 
 export function handleExecTransaction(call: ExecTransactionCall): void {
     handleTransaction(
+        call.to,
         call.transaction.hash,
         call.inputs.to,
         call.inputs.value,
@@ -112,6 +113,7 @@ export function handleExecTransaction(call: ExecTransactionCall): void {
 
 export function handleSafeMultiSigTransaction(event: SafeMultiSigTransaction): void {
     handleTransaction(
+        event.address,
         event.transaction.hash,
         event.params.to,
         event.params.value,
@@ -122,8 +124,7 @@ export function handleSafeMultiSigTransaction(event: SafeMultiSigTransaction): v
         event.params.gasPrice,
         event.params.gasToken,
         event.params.refundReceiver,
-        event.params.signatures
-    )
+        event.params.signatures)
 }
 
 /*
@@ -152,11 +153,10 @@ function addTransactionToWallet(wallet: Wallet, transaction: Transaction): Walle
     return wallet
 }
 
-export function handleTransaction(hash: Bytes, to: Address, value: BigInt, data: Bytes, operation: i32,
+export function handleTransaction(walletAddr: Address, hash: Bytes, to: Address, value: BigInt, data: Bytes, operation: i32,
     safeTxGas: BigInt, baseGas: BigInt, gasPrice: BigInt,  gasToken: Address, refundReceiver: Address, 
     signatures: Bytes): void {
 
-    let walletAddr = to
     let wallet = Wallet.load(walletAddr.toHex())
 
     let walletInstance = GnosisSafe.bind(walletAddr)
