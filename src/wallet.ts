@@ -11,7 +11,7 @@ export function handleAddedOwner(event: AddedOwner): void {
 
     if(wallet != null) {
         let owners = wallet.owners
-        owners.push(event.params.owner)
+        owners.unshift(event.params.owner)
         wallet.owners = owners
         wallet.save()
 
