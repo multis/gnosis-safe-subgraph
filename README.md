@@ -1,7 +1,7 @@
 
 # Gnosis Safe subgraph
 
-This Subgraph dynamically tracks activity on any Gnosis Safe multisignature wallets deployed through the factory. 
+This Subgraph dynamically tracks activity on any Gnosis Safe multisignature wallets deployed through the factory (current support for versions 1.1.1 and 1.3.0)
 
 ### Networks:
 
