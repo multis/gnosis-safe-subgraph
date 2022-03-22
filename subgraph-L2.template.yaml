@@ -1,5 +1,7 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 description: Gnosis Safe Subgraph
+features:
+    - nonFatalErrors
 schema:
   file: ./schema.graphql
 dataSources:
@@ -12,7 +14,7 @@ dataSources:
       startBlock: {{factory.v1_1_1.birthBlock}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/factory.ts
       entities:
@@ -35,7 +37,7 @@ dataSources:
       startBlock: {{factory.v1_3_0.birthBlock}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/factory.ts
       entities:
@@ -57,7 +59,7 @@ templates:
       abi: GnosisSafeL2
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/wallet.ts
       entities:

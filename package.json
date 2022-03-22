@@ -21,8 +21,8 @@
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 gjeanmart/gnosis-safe"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.18.0",
-    "@graphprotocol/graph-ts": "0.18.1"
+    "@graphprotocol/graph-cli": "^0.28.1",
+    "@graphprotocol/graph-ts": "^0.26.0"
   },
   "devDependencies": {
     "mustache": "^3.1.0"

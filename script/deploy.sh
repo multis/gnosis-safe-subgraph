@@ -82,4 +82,6 @@ if [ $NETWORK = "mumbai" ]; then
     PROJECT_ID=$PROJECT_ID_MUMBAI
 fi
 
-graph deploy --debug --access-token $ACCESS_TOKEN --node $GRAPH_NODE --ipfs $IPFS_NODE $PROJECT_ID
+npx graph auth --product hosted-service $ACCESS_TOKEN
+
+npx graph deploy --debug --product hosted-service $PROJECT_ID

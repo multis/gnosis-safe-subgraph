@@ -46,11 +46,11 @@ yarn prepare:$NETWORK
 
 # Generate code
 if [ $CODE_GEN -eq "1" ]; then
-    graph codegen
+    npx graph codegen
 fi
 
 # Build
-graph build
+npx graph build
 
 
 echo "success!"
