@@ -35,7 +35,7 @@ $ yarn global add @graphprotocol/graph-cli
 0. Get the source and install the dependencies
 
 ```
-$ git git@github.com:gjeanmart/gnosis-safe-subgraph.git
+$ git git@github.com:multis/gnosis-safe-subgraph.git
 $ cd ./gnosis-safe-subgraph
 $ npm install
 ```
@@ -54,12 +54,12 @@ $ ./script/build.sh [--reset] [--code-gen] [--network mainnet|ropsten|kovan|mumb
 ## Deployment
 
 ```
-$ ./script/deploy.sh [--network mainnet|ropsten|kovan|mumbai|polygon] [--local] [--access-token xxxxxxxxxxxx]
+$ ./script/deploy.sh [--network mainnet|ropsten|kovan|mumbai|polygon] [--local] [--access-token xxxxxxxxxxxx] [--product studio]
 ```
 
 - `--network -n` select a target network (mainnet, ropsten, kovan, mumbai, polygon) [optional, default: mainnet]
-- `--local -l`  deploy on a local node instead of a TheGraph node (https://api.thegraph.com/deploy/) [optional, default: false]
 - `--access-token -t` access token to deploy the subgraph [optional, default: env variable $THEGRAPH_ACCESS_TOKEN]
+- `--product -p` select a target TheGraph product (studio, hosted-service) [optional, default: studio]
 
 
 ## Model
