@@ -81,5 +81,5 @@ if [ $PRODUCT = "studio" ]; then
     PRODUCT_TARGET=--studio
 fi
 
-npx graph auth $PRODUCT_TARGET $THEGRAPH_ACCESS_TOKEN
+npx graph auth $PRODUCT_TARGET $ACCESS_TOKEN
 npx graph deploy --debug $PRODUCT_TARGET $PROJECT_ID
