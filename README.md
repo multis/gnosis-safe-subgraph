@@ -3,16 +3,16 @@
 
 This Subgraph dynamically tracks activity on any Gnosis Safe multisignature wallets deployed through the factory (current support for versions 1.1.1 and 1.3.0)
 
-### Networks:
+### Subgraphs
 
-### Hosted service
+#### Hosted service
 - Ropsten https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-ropsten
 - Mainnet https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-mainnet
 - Kovan https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-kovan
 - Mumbai (Polygon testnet) https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-mumbai
 - Polygon https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-polygon
 
-### Decentralized network
+#### Decentralized network
 
 Soon...
 
