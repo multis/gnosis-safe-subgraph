@@ -4,6 +4,7 @@ PROJECT_ID_MAINNET=gnosis-safe-mainnet
 PROJECT_ID_RINKEBY=gnosis-safe-rinkeby
 PROJECT_ID_ROPSTEN=gnosis-safe-ropsten
 PROJECT_ID_KOVAN=gnosis-safe-kovan
+PROJECT_ID_GOERLI=gnosis-safe-goerli
 PROJECT_ID_POLYGON=gnosis-safe-polygon
 PROJECT_ID_MUMBAI=gnosis-safe-mumbai
 
@@ -66,16 +67,18 @@ fi
 if [ $NETWORK = "kovan" ]; then
     PROJECT_ID=$PROJECT_ID_KOVAN
 fi
+if [ $NETWORK = "goerli" ]; then
+    PROJECT_ID=$PROJECT_ID_GOERLI
+fi
 if [ $NETWORK = "polygon" ]; then
     PROJECT_ID=$PROJECT_ID_POLYGON
 fi
 if [ $NETWORK = "mumbai" ]; then
     PROJECT_ID=$PROJECT_ID_MUMBAI
 fi
-
 if [ $PRODUCT = "hosted-service" ]; then
     PROJECT_ID=gjeanmart/$PROJECT_ID
-    PRODUCT_TARGET=--product $PRODUCT
+    PRODUCT_TARGET="--product $PRODUCT"
 fi
 if [ $PRODUCT = "studio" ]; then
     PRODUCT_TARGET=--studio

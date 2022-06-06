@@ -6,15 +6,16 @@ This Subgraph dynamically tracks activity on any Gnosis Safe multisignature wall
 ### Subgraphs
 
 #### Hosted service
-- Ropsten https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-ropsten
 - Mainnet https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-mainnet
+- Ropsten https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-ropsten
 - Kovan https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-kovan
-- Mumbai (Polygon testnet) https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-mumbai
+- Goerli https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-goerli
 - Polygon https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-polygon
+- Mumbai (Polygon testnet) https://thegraph.com/explorer/subgraph/gjeanmart/gnosis-safe-mumbai
 
 #### Decentralized network
 
-Soon...
+- Mainnet https://thegraph.com/studio/subgraph/gnosis-safe-mainnet/
 
 ## Prerequiste
 
@@ -47,21 +48,21 @@ $ npm install
 1. Build
 
 ```
-$ ./script/build.sh [--reset] [--code-gen] [--network mainnet|ropsten|kovan|mumbai|polygon]
+$ ./script/build.sh [--reset] [--code-gen] [--network mainnet|ropsten|kovan|goerli|mumbai|polygon]
 ```
 
 - `--reset -r` deletes the build and generated code folders [optional, default: false]
 - `--code-gen -c` (re)generate code from schema [optional, default: false]
-- `--network -n` select a target network (mainnet, ropsten, kovan, mumbai, polygon) [optional, default: mainnet]
+- `--network -n` select a target network (mainnet, ropsten, kovan, goerli, mumbai, polygon) [optional, default: mainnet]
 
 
 ## Deployment
 
 ```
-$ ./script/deploy.sh [--network mainnet|ropsten|kovan|mumbai|polygon] [--local] [--access-token xxxxxxxxxxxx] [--product studio]
+$ ./script/deploy.sh [--network mainnet|ropsten|kovan|goerli|mumbai|polygon] [--local] [--access-token xxxxxxxxxxxx] [--product studio]
 ```
 
-- `--network -n` select a target network (mainnet, ropsten, kovan, mumbai, polygon) [optional, default: mainnet]
+- `--network -n` select a target network (mainnet, ropsten, kovan, goerli, mumbai, polygon) [optional, default: mainnet]
 - `--access-token -t` access token to deploy the subgraph [optional, default: env variable $THEGRAPH_ACCESS_TOKEN]
 - `--product -p` select a target TheGraph product (studio, hosted-service) [optional, default: studio]
 
