@@ -162,43 +162,49 @@ export function handleTransaction(walletAddr: Address, hash: Bytes, to: Address,
     let walletInstance = GnosisSafe.bind(walletAddr)
 
     if(wallet != null) {
-        let currentNonce = walletInstance.nonce()
-        let nonce = currentNonce.equals(zeroBigInt()) ? currentNonce : currentNonce.minus(oneBigInt())
-        let txHash = walletInstance.getTransactionHash(
-            to, 
-            value, 
-            data, 
-            operation,
-            safeTxGas, 
-            baseGas, 
-            gasPrice, 
-            gasToken, 
-            refundReceiver, 
-            nonce)
-
-        let transaction = getTransaction(walletAddr, txHash)
-
-        if(data.length < 2700) { // max size of a column. In some very rare cases, the method data bytecode is very long 
-            transaction.data = data
+        let currentNonce = walletInstance.try_nonce()
+        if(!currentNonce.reverted) {
+            let nonce = currentNonce.value.equals(zeroBigInt()) 
+                            ? currentNonce.value
+                            : currentNonce.value.minus(oneBigInt())
+            let txHash = walletInstance.getTransactionHash(
+                to, 
+                value, 
+                data, 
+                operation,
+                safeTxGas, 
+                baseGas, 
+                gasPrice, 
+                gasToken, 
+                refundReceiver, 
+                nonce)
+    
+            let transaction = getTransaction(walletAddr, txHash)
+    
+            if(data.length < 2700) { // max size of a column. In some very rare cases, the method data bytecode is very long 
+                transaction.data = data
+            } else {
+                log.warning("wallet: {} transaction {} - cannot store transaction.data (too long), length: {}", 
+                            [walletAddr.toHexString(), hash.toHexString(), ByteArray.fromI32(data.length).toHexString()])
+            }        
+            transaction.value = value
+            transaction.destination = to
+            transaction.signatures = signatures
+            transaction.nonce = nonce
+            transaction.operation = (operation == 0) ? "CALL" : "DELEGATE_CALL"
+            transaction.estimatedSafeTxGas = safeTxGas
+            transaction.estimatedBaseGas = baseGas
+            transaction.gasToken = gasToken
+            transaction.gasPrice =  gasPrice
+            transaction.refundReceiver = refundReceiver
+            transaction.save()
+    
+            wallet = addTransactionToWallet(<Wallet> wallet, transaction)
+            wallet.currentNonce = currentNonce.value
+            wallet.save()
         } else {
-            log.warning("wallet: {} transaction {} - cannot store transaction.data (too long), length: {}", 
-                        [walletAddr.toHexString(), hash.toHexString(), ByteArray.fromI32(data.length).toHexString()])
-        }        
-        transaction.value = value
-        transaction.destination = to
-        transaction.signatures = signatures
-        transaction.nonce = nonce
-        transaction.operation = (operation == 0) ? "CALL" : "DELEGATE_CALL"
-        transaction.estimatedSafeTxGas = safeTxGas
-        transaction.estimatedBaseGas = baseGas
-        transaction.gasToken = gasToken
-        transaction.gasPrice =  gasPrice
-        transaction.refundReceiver = refundReceiver
-        transaction.save()
-
-        wallet = addTransactionToWallet(<Wallet> wallet, transaction)
-        wallet.currentNonce = currentNonce
-        wallet.save()
+            log.warning("handleTransaction::Transaction {} issue (nonce reverter)", [hash.toHexString()])
+        }
 
     } else {
         log.warning("handleTransaction::Wallet {} not found", [walletAddr.toHexString()])

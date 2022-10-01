@@ -1,8 +1,8 @@
 specVersion: 0.0.4
 description: Gnosis Safe Subgraph
-features:
-  - nonFatalErrors
-  - grafting
+# features:
+  # - nonFatalErrors
+  # - grafting
 # graft:
 #   base: QmRYrGKGGBzRJCEZNaeFdrKjNsrA8JVbY9rYExz1fS1ybD
 #   block: 15013333
