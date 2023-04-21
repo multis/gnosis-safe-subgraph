@@ -1,4 +1,6 @@
 #!/bin/bash
+source .env
+
 
 PROJECT_ID_MAINNET=gnosis-safe-mainnet
 PROJECT_ID_RINKEBY=gnosis-safe-rinkeby
@@ -84,5 +86,5 @@ if [ $PRODUCT = "studio" ]; then
     PRODUCT_TARGET=--studio
 fi
 
-npx graph auth $PRODUCT_TARGET $ACCESS_TOKEN
-npx graph deploy --debug $PRODUCT_TARGET $PROJECT_ID
+npx graph auth $PRODUCT_TARGET $DEPLOY_KEY
+npx graph deploy --debug-fork $DEPLOYMENT_ID
