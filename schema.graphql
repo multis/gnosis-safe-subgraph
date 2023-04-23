@@ -1,46 +1,111 @@
 
-type Safe @entity {
-  id: ID!
-  createdAt: BigInt!
-  created: Transaction! @derivedFrom(field: "createdSafe")
-  safeApps: [SafeApp!]! @derivedFrom(field: "safe")
+type Wallet @entity {
+    "Unique identifier of the wallet (contract Address)"
+    id                  : ID!
+
+    "ddress who created the contract"
+    creator             : Bytes!            
+
+    "Network where the wallet is deployed (plain text: rinkeby, ropsten, mainnet, etc.)"
+    network             : String!
+
+    "Timestamp when the wallet was deployed"
+    stamp               : BigInt!
+
+    "Transaction hash when the wallet was deployed"
+    hash                : Bytes!
+
+    "Factory Address which deployed the wallet"
+    factory             : Bytes!
+
+    "Mastercopy address used by the proxy"
+    mastercopy          : Bytes
+
+    "Version of the Gnosis-Safe"
+    version             : String
+
+    "Nonce used to order and uniquely identified each transaction"
+    currentNonce        : BigInt!
+
+    "List of owner Addresses of the wallet"
+    owners              : [Bytes!]!
+
+    "Number of confirmation required to execute a transaction out of the wallet "
+    threshold            : BigInt!
+
+    "List of sucessful and failed transactions executed from the wallet"
+    transactions        : [Transaction!]!
+
 }
 
 type Transaction @entity {
-  id: ID!
-  createdAt: BigInt!
-  hash: String!
-  safe: Safe!
-  createdSafe: Safe @derivedFrom(field: "created")
-  confirmations: [Confirmation!]! @derivedFrom(field: "transaction")
-  status: String! # Pending, Success, Failed
-  safeApps: [SafeApp!]! @derivedFrom(field: "transaction")
+    "Unique Identifier of the transaction called Transaction Hash = keccak256(encodeTransactionData(to, value, data, operation, safeTxGas, baseGas, gasPrice, gasToken, refundReceiver, _nonce))"
+    id                  : ID!
+
+    "Timestamp when the transaction was executed"
+    stamp               : BigInt
+
+    "Block on Ethereum"
+    block               : BigInt
+
+    "Transaction hash on Ethereum"
+    hash                : Bytes
+
+    "Status of the transaction"
+    status              : TransactionStatus  
+
+    "Transaction hash on the Safe"
+    txhash                : Bytes
+
+    "Ether Amount (in WEI) included in the transaction - transfered from the wallet when the transaction is executed"
+    value               : BigInt
+
+    "Destination of the transaction"
+    destination         : Bytes
+
+    "Data of the transaction - smart contract input data bytecode - see https://lab.miguelmota.com/ethereum-input-data-decoder/example/"
+    data                : Bytes
+
+    "Signatures"
+    signatures          : Bytes
+
+    "Nonce"
+    nonce               : BigInt
+
+    "Operation"
+    operation           : Operation
+
+    "Estimated Gas that should be used for the Safe transaction."
+    estimatedSafeTxGas  : BigInt
+
+    "Estimated Gas costs for that are indipendent of the transaction execution (e.g. base transaction fee, signature check, payment of the refund)"
+    estimatedBaseGas    : BigInt
+
+    "gasPrice (in gasToken)"
+    gasPrice   : BigInt
+
+    "gasToken"
+    gasToken            : Bytes
+
+    "refundReceiver"
+    refundReceiver      : Bytes
+
+    "Amount paid as fee to refundReceiver "
+    payment             : BigInt
+
+    "Wallet parent"
+    wallet              : Wallet! @derivedFrom(field: "transactions")
 }
 
-type Confirmation @entity {
-  id: ID!
-  createdAt: BigInt!
-  owner: Owner!
-  transaction: Transaction!
-  signature: String
+enum TransactionStatus {
+    "Transaction was executed successfully"
+    EXECUTED
+
+    "Transaction failed during the execution "
+    FAILED
 }
 
-type Owner @entity {
-  id: ID!
-  createdAt: BigInt!
-  address: String!
-  module: Module! @derivedFrom(field: "owners")
-}
-
-type Module @entity {
-  id: ID!
-  createdAt: BigInt!
-  address: String!
-  owners: [Owner!]! @derivedFrom(field: "module")
-}
-
-type SafeApp @entity {
-  id: ID!
-  createdAt: BigInt!
-  safe: Safe!
+enum Operation {
+    CALL
+    DELEGATE_CALL
 }
